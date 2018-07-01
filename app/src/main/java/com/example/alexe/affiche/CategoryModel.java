@@ -1,9 +1,6 @@
 package com.example.alexe.affiche;
 
-import android.media.Image;
-
 public class CategoryModel {
-
     private String name;
     private int img;
 
@@ -15,7 +12,6 @@ public class CategoryModel {
     public String getName() {
         return name;
     }
-
     public int getImage() {
         return img;
     }
