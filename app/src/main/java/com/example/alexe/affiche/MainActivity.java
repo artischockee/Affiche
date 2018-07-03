@@ -1,24 +1,29 @@
 package com.example.alexe.affiche;
 
 import android.app.FragmentTransaction;
+import android.app.ProgressDialog;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.Toolbar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
     private TextView mTextMessage;
     private Toolbar tb;
-    private DBHelper dbhelper;
+    private ProgressDialog mDialog;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -40,6 +45,9 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.navigation_notification:
                     getSupportActionBar().setTitle(R.string.title_notifications);
                     findViewById(R.id.imageButton).setVisibility(View.GONE);
+                    getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.frgmCont, new Search())
+                            .commit();
                     return true;
             }
             return false;
@@ -49,6 +57,10 @@ public class MainActivity extends AppCompatActivity {
     public void onClick(View v) {
         if (v.getId() == R.id.imageButton4)
         {
+            mDialog = new ProgressDialog(this, R.style.MyAlertDialogStyle);
+            mDialog.setMessage("Идет загрузка");
+            mDialog.show();
+
             WebView webView = (WebView) findViewById(R.id.webView);
             WebSettings webSettings = webView.getSettings();
             webSettings.setJavaScriptEnabled(true);
@@ -58,6 +70,12 @@ public class MainActivity extends AppCompatActivity {
             findViewById(R.id.toolbar).setVisibility(View.GONE);
             findViewById(R.id.imageButton4).setVisibility(View.GONE);
             findViewById(R.id.fab).setVisibility(View.VISIBLE);
+
+            getFragmentManager().beginTransaction().addToBackStack(null);
+        }
+        else if (v.getId() == R.id.imageButton || v.getId() == R.id.fab)
+        {
+            onBackPressed();
         }
     }
 
@@ -80,10 +98,32 @@ public class MainActivity extends AppCompatActivity {
 
         setSupportActionBar(tb);
         getSupportActionBar().setTitle(R.string.title_dashboard);
+    }
 
-        dbhelper = new DBHelper(this);
+    @Override
+    public void onBackPressed()
+    {
+        FragmentManager fragManager = getSupportFragmentManager();
+        int count = fragManager.getBackStackEntryCount();
+        Fragment currentFrag =  getSupportFragmentManager().findFragmentById(R.id.frgmCont);
+        String fragName = currentFrag.getClass().getSimpleName();
+        if (count != 0) {
+            if ((fragName.equals("CinemaPageWebview")
+                    || fragName.equals("TheaterPageWebview")
+                    || fragName.equals("EventPageWebview")
+                    || fragName.equals("ChildrenPageWebview"))){
+                findViewById(R.id.imageButton4).setVisibility(View.GONE);
+                findViewById(R.id.imageButton).setVisibility(View.GONE);
+                findViewById(R.id.imageButton2).setVisibility(View.VISIBLE);
+                findViewById(R.id.imageButton3).setVisibility(View.VISIBLE);
+                findViewById(R.id.navigation).setVisibility(View.VISIBLE);
+            }
 
-      //  sqLiteDatabase = dbhelper.getWritableDatabase();
+            fragManager.popBackStack();
+            return;
+        }
+
+        super.onBackPressed();
     }
 
     private class MyWebViewClient extends WebViewClient
@@ -93,6 +133,10 @@ public class MainActivity extends AppCompatActivity {
         {
             view.loadUrl(url);
             return true;
+        }
+
+        public void onPageFinished(WebView view, String url) {
+            mDialog.dismiss();
         }
     }
 }

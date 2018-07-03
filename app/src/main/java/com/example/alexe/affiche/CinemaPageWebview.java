@@ -1,6 +1,7 @@
 package com.example.alexe.affiche;
 
 import android.annotation.SuppressLint;
+import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -47,10 +48,6 @@ public class CinemaPageWebview extends Fragment {
         if (cursor.moveToFirst()) {
             do {
                 int titleIndex = cursor.getColumnIndex(DBHelper.KEY_TITLE);
-                int infoIndex = cursor.getColumnIndex(DBHelper.KEY_INFO);
-                int yearIndex = cursor.getColumnIndex(DBHelper.KEY_YEAR);
-                int durationIndex = cursor.getColumnIndex(DBHelper.KEY_DURATION);
-                int imageIndex = cursor.getColumnIndex(DBHelper.KEY_IMG);
                 int addressIndex = cursor.getColumnIndex(DBHelper.KEY_ADDRESS);
 
                 Log.d("filmpoisk","title" + cursor.getString(titleIndex) + "address" + cursor.getString(addressIndex));
@@ -62,6 +59,8 @@ public class CinemaPageWebview extends Fragment {
                 }
             } while (cursor.moveToNext());
         }
+        dbhelper.close();
+        sqLiteDatabase.close();
         return url;
     }
 
@@ -98,8 +97,13 @@ public class CinemaPageWebview extends Fragment {
     }
 
     class JsoupAsyncTask extends AsyncTask<Void, Void, Void> {
+        private ProgressDialog mDialog;
+
         @Override
         protected void onPreExecute() {
+            mDialog = new ProgressDialog(getActivity(), R.style.MyAlertDialogStyle);
+            mDialog.setMessage("Идет загрузка");
+            mDialog.show();
             super.onPreExecute();
         }
 
@@ -124,6 +128,7 @@ public class CinemaPageWebview extends Fragment {
             super.onPostExecute(result);
             String html = "<html><body>" + title + story + "</body></html>";
             webView.loadData(html, "text/html", "en_US");
+            mDialog.dismiss();
         }
     }
 }

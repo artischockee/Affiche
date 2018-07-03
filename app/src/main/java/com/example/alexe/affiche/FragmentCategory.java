@@ -3,13 +3,16 @@ package com.example.alexe.affiche;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -66,9 +69,43 @@ public class FragmentCategory extends Fragment {
         }
 
         private void selectItem(View v) {
-            getFragmentManager().beginTransaction()
-                    .replace(R.id.frgmCont, new Cinema())
-                    .commit();
+            int select = recyclerView.getChildAdapterPosition(v);
+            RecyclerView.ViewHolder vh = recyclerView.findViewHolderForAdapterPosition(select);
+            TextView textView = (TextView)vh.itemView.findViewById(R.id.textViewName);
+            String title = (String) textView.getText();
+            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+            switch (title)
+            {
+                case "Кино" : {
+                    Cinema fragment = new Cinema();
+                    transaction.replace(R.id.frgmCont, fragment);
+                    transaction.addToBackStack(fragment.getClass().getName());
+                    transaction.commit();
+                    break;
+                }
+                case "Театр" : {
+                    Theater fragment = new Theater();
+                    transaction.replace(R.id.frgmCont, fragment);
+                    transaction.addToBackStack(fragment.getClass().getName());
+                    transaction.commit();
+                    break;
+                }
+                case "Для детей" : {
+                    Children fragment = new Children();
+                    transaction.replace(R.id.frgmCont, fragment);
+                    transaction.addToBackStack(fragment.getClass().getName());
+                    transaction.commit();
+                    break;
+                }
+                case "Мероприятия" : {
+                    Events fragment = new Events();
+                    transaction.replace(R.id.frgmCont, fragment);
+                    transaction.addToBackStack(fragment.getClass().getName());
+                    transaction.commit();
+                    break;
+                }
+            }
         }
     }
 }

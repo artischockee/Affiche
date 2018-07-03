@@ -69,7 +69,6 @@ public class CinemaAdapter extends RecyclerView.Adapter<CinemaAdapter.MyViewHold
         textViewInfo.setText(dataSet.get(listPosition).getInfo());
         textViewYear.setText(dataSet.get(listPosition).getYear());
         textViewDuration.setText(dataSet.get(listPosition).getDuration());
-        //imageView.setImageResource(
         Picasso.with(holder.itemView.getContext()) //передаем контекст приложения
                 .load(dataSet.get(listPosition).getImage()) //адрес изображения
                 .into(imageView);

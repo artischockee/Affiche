@@ -1,14 +1,18 @@
 package com.example.alexe.affiche;
 
+import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -16,11 +20,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -40,10 +46,10 @@ public class Cinema extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_cinema, container, false);
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Кинотеатр");
+        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Кино");
         myOnClickListener = new MyOnClickListener(getActivity());
 
-        recyclerView = view.findViewById(R.id.my_recycler_view);
+        recyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
         recyclerView.setHasFixedSize(true);
 
 
@@ -60,7 +66,6 @@ public class Cinema extends Fragment {
         Context context = getActivity();
         dbhelper = new DBHelper(context);
         sqLiteDatabase = dbhelper.getWritableDatabase();
-
 
         return view;
     }
@@ -84,18 +89,15 @@ public class Cinema extends Fragment {
             TextView textView = (TextView)vh.itemView.findViewById(R.id.textViewName);
             String title = (String) textView.getText();
 
-            Log.d("Выводим title фильма", title);
-
             CinemaPageWebview fragment = new CinemaPageWebview();
             Bundle bundle = new Bundle();
             bundle.putString("title", title);
             fragment.setArguments(bundle);
 
-                getFragmentManager().beginTransaction()
-                        .replace(R.id.frgmCont, fragment)
-                        .commit();
-
-
+            FragmentTransaction transaction = getFragmentManager().beginTransaction();
+            transaction.replace(R.id.frgmCont, fragment);
+            transaction.addToBackStack(fragment.getClass().getName());
+            transaction.commit();
         }
     }
 
@@ -109,8 +111,13 @@ public class Cinema extends Fragment {
         private String[] imageUrl;
         private String[] addressUrl;
 
+        private ProgressDialog mDialog;
+
         @Override
         protected void onPreExecute() {
+            mDialog = new ProgressDialog(getActivity(), R.style.MyAlertDialogStyle);
+            mDialog.setMessage("Идет загрузка");
+            mDialog.show();
             super.onPreExecute();
         }
 
@@ -191,6 +198,7 @@ public class Cinema extends Fragment {
             // Считываем данные из текстовых полей
             ContentValues contentValue = new ContentValues();
             for (int i = 0; i<name.length; i++) {
+                contentValue.put(DBHelper.KEY_ID_1, (i+1));
                 contentValue.put(DBHelper.KEY_TITLE, name[i]);
                 contentValue.put(DBHelper.KEY_INFO, info[i]);
                 contentValue.put(DBHelper.KEY_YEAR, year[i]);
@@ -219,17 +227,17 @@ public class Cinema extends Fragment {
                 } while (cursor.moveToNext());
                 cursor.close();
             }
-           // dbhelper.close();
-           // sqLiteDatabase.close();
+           dbhelper.close();
+           sqLiteDatabase.close();
         }
 
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
-
             data = new ArrayList<CardModel>();
             insertCinema();
             readCinema();
+            mDialog.dismiss();
         }
     }
 }

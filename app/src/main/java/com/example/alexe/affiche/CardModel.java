@@ -1,6 +1,9 @@
 package com.example.alexe.affiche;
 
+import android.media.Image;
+
 public class CardModel {
+
     private String title;
     private String info;
     private String img;

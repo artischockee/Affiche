@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <android.support.v7.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view"
+        android:layout_width="match_parent"
+        android:layout_height="102dp"
+
+        card_view:cardBackgroundColor="#FFF"
+        card_view:cardUseCompatPadding="true">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="171dp"
+                android:layout_height="92dp"
+                android:layout_margin="5dp"
+                android:layout_marginEnd="216dp"
+                android:layout_marginStart="8dp"
+                android:scaleType="fitCenter"
+                android:tag="image_tag"
+                card_view:layout_constraintEnd_toEndOf="parent"
+                card_view:layout_constraintHorizontal_bias="0.0"
+                card_view:layout_constraintStart_toStartOf="parent"
+                tools:layout_editor_absoluteY="1dp" />
+
+            <TextView
+                android:id="@+id/textViewName"
+                android:layout_width="165dp"
+                android:layout_height="19dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:fontFamily="@font/roboto_medium"
+                android:text="TITLE"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="16sp"
+                card_view:layout_constraintEnd_toEndOf="parent"
+                card_view:layout_constraintHorizontal_bias="0.0"
+                card_view:layout_constraintStart_toEndOf="@+id/imageView"
+                card_view:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/textViewDate"
+                android:layout_width="162dp"
+                android:layout_height="19dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/roboto_medium"
+                android:text="DATE"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/colorPrimaryLight"
+                android:textSize="12sp"
+                card_view:layout_constraintBottom_toBottomOf="parent"
+                card_view:layout_constraintEnd_toEndOf="parent"
+                card_view:layout_constraintHorizontal_bias="0.0"
+                card_view:layout_constraintStart_toEndOf="@+id/imageView"
+                card_view:layout_constraintTop_toBottomOf="@+id/textViewName"
+                card_view:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/textViewTime"
+                android:layout_width="167dp"
+                android:layout_height="18dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/roboto_medium"
+                android:text="TIME"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#9b232f34"
+                android:textSize="12sp"
+                card_view:layout_constraintBottom_toBottomOf="parent"
+                card_view:layout_constraintEnd_toEndOf="parent"
+                card_view:layout_constraintHorizontal_bias="0.0"
+                card_view:layout_constraintStart_toEndOf="@+id/imageView"
+                card_view:layout_constraintTop_toTopOf="parent"
+                card_view:layout_constraintVertical_bias="1.0" />
+
+            <TextView
+                android:id="@+id/textViewPlace"
+                android:layout_width="168dp"
+                android:layout_height="17dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:fontFamily="@font/roboto_medium"
+                android:text="PLACE"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="@color/colorPrimaryLight"
+                android:textSize="12sp"
+                card_view:layout_constraintBottom_toBottomOf="parent"
+                card_view:layout_constraintEnd_toEndOf="parent"
+                card_view:layout_constraintHorizontal_bias="0.0"
+                card_view:layout_constraintStart_toEndOf="@+id/imageView"
+                card_view:layout_constraintTop_toTopOf="parent"
+                card_view:layout_constraintVertical_bias="0.633" />
+
+        </android.support.constraint.ConstraintLayout>
+    </android.support.v7.widget.CardView>
+
+</LinearLayout>
