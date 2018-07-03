@@ -16,6 +16,7 @@ import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -54,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    public void onClick(View v) {
+    public void onClick(View v) throws Exception {
         if (v.getId() == R.id.imageButton4)
         {
             mDialog = new ProgressDialog(this, R.style.MyAlertDialogStyle);
@@ -76,6 +77,10 @@ public class MainActivity extends AppCompatActivity {
         else if (v.getId() == R.id.imageButton || v.getId() == R.id.fab)
         {
             onBackPressed();
+        }
+
+        if (v.getId() == R.id.search_button) {
+            throw new Exception();
         }
     }
 
