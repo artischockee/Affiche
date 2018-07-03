@@ -33,7 +33,7 @@ import java.util.ArrayList;
 
 public class Theater extends Fragment {
     private static RecyclerView.Adapter adapter;
-    private static ArrayList<CardModelTheater> data;
+    private static ArrayList<CardModelEvent> data;
     private static ArrayList<Integer> removedItems;
     public RecyclerView.LayoutManager layoutManager;
     public static RecyclerView recyclerView;
@@ -262,7 +262,7 @@ public class Theater extends Fragment {
                     int imageIndex = cursor.getColumnIndex(DBHelper.KEY_IMG_1);
                     int urlIndex = cursor.getColumnIndex(DBHelper.KEY_ADDRESS_1);
 
-                    data.add(new CardModelTheater(cursor.getString(titleIndex), cursor.getString(timeIndex), cursor.getString(dateIndex),
+                    data.add(new CardModelEvent(cursor.getString(titleIndex), cursor.getString(timeIndex), cursor.getString(dateIndex),
                             cursor.getString(imageIndex), cursor.getString(urlIndex), cursor.getString(placeIndex)));
                     adapter = new TheaterAdapter(data);
                     recyclerView.setAdapter(adapter);
@@ -276,7 +276,7 @@ public class Theater extends Fragment {
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
-            data = new ArrayList<CardModelTheater>();
+            data = new ArrayList<>();
             insertTheater();
             readTheater();
             mDialog.dismiss();

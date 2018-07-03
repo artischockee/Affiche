@@ -1,6 +1,5 @@
 package com.example.alexe.affiche;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,11 +27,11 @@ public class CinemaAdapter extends RecyclerView.Adapter<CinemaAdapter.MyViewHold
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            this.textViewName = (TextView) itemView.findViewById(R.id.textViewName);
-            this.textViewInfo = (TextView) itemView.findViewById(R.id.textViewInfo);
-            this.textViewYear = (TextView) itemView.findViewById(R.id.textViewYear);
-            this.textViewDuration = (TextView) itemView.findViewById(R.id.textViewDuration);
-            this.imageViewIcon = (ImageView) itemView.findViewById(R.id.imageView);
+            this.textViewName = itemView.findViewById(R.id.textViewName);
+            this.textViewInfo = itemView.findViewById(R.id.textViewInfo);
+            this.textViewYear = itemView.findViewById(R.id.textViewYear);
+            this.textViewDuration = itemView.findViewById(R.id.textViewDuration);
+            this.imageViewIcon = itemView.findViewById(R.id.imageView);
         }
     }
 

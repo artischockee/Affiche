@@ -15,7 +15,7 @@ import java.util.ArrayList;
 
 public class TheaterAdapter extends RecyclerView.Adapter<TheaterAdapter.MyViewHolder> {
 
-    private ArrayList<CardModelTheater> dataSet;
+    private ArrayList<CardModelEvent> dataSet;
     AdapterView.OnItemClickListener listener;
 
     public static class MyViewHolder extends RecyclerView.ViewHolder {
@@ -37,10 +37,10 @@ public class TheaterAdapter extends RecyclerView.Adapter<TheaterAdapter.MyViewHo
     }
 
     public interface OnItemClickListener {
-        void onCardPressed(CardModelTheater cardModelTheater);
+        void onCardPressed(CardModelEvent cardModelTheater);
     }
 
-    public TheaterAdapter(ArrayList<CardModelTheater> data) {
+    public TheaterAdapter(ArrayList<CardModelEvent> data) {
         this.dataSet = data;
     }
 
