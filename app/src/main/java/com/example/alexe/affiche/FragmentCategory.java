@@ -8,7 +8,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +16,10 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class FragmentCategory extends Fragment {
-    private static RecyclerView.Adapter adapter;
+    private static AdapterUniversal adapter;
     public RecyclerView.LayoutManager layoutManager;
     private static RecyclerView recyclerView;
-    private static ArrayList<CategoryModel> data;
+    private static ArrayList<ListItem> data;
     static View.OnClickListener myOnClickListener;
     private static ArrayList<Integer> removedItems;
 
@@ -31,24 +30,24 @@ public class FragmentCategory extends Fragment {
 
         myOnClickListener = new MyOnClickListener(getActivity());
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
+        recyclerView = view.findViewById(R.id.my_recycler_view);
         recyclerView.setHasFixedSize(true);
 
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        data = new ArrayList<CategoryModel>();
+        data = new ArrayList<>();
         for (int i = 0; i < DataCategory.nameArray.length; i++) {
-            data.add(new CategoryModel(
+            data.add(new CardModelCategory(
                     DataCategory.nameArray[i],
                     DataCategory.drawableArray[i]
             ));
         }
 
-        removedItems = new ArrayList<Integer>();
+        removedItems = new ArrayList<>();
 
-        adapter = new CustomAdapter(data);
+        adapter = new AdapterUniversal(data);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         recyclerView.setAdapter(adapter);
 
@@ -71,7 +70,7 @@ public class FragmentCategory extends Fragment {
         private void selectItem(View v) {
             int select = recyclerView.getChildAdapterPosition(v);
             RecyclerView.ViewHolder vh = recyclerView.findViewHolderForAdapterPosition(select);
-            TextView textView = (TextView)vh.itemView.findViewById(R.id.textViewName);
+            TextView textView = vh.itemView.findViewById(R.id.textViewName);
             String title = (String) textView.getText();
             FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
