@@ -1,24 +1,19 @@
 package com.example.alexe.affiche;
 
-import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.widget.Toolbar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -34,7 +29,10 @@ public class MainActivity extends AppCompatActivity {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
                     getSupportActionBar().setTitle(R.string.title_home);
+                    findViewById(R.id.editSearch).setVisibility(View.GONE);
                     findViewById(R.id.imageButton).setVisibility(View.GONE);
+                    findViewById(R.id.imageButton2).setVisibility(View.GONE);
+                    findViewById(R.id.imageButton3).setVisibility(View.VISIBLE);
                     return true;
                 case R.id.navigation_dashboard:
                     getSupportActionBar().setTitle(R.string.title_dashboard);
@@ -42,27 +40,33 @@ public class MainActivity extends AppCompatActivity {
                     getSupportFragmentManager().beginTransaction()
                             .replace(R.id.frgmCont, new FragmentCategory())
                             .commit();
+                    findViewById(R.id.editSearch).setVisibility(View.GONE);
+                    findViewById(R.id.imageButton2).setVisibility(View.GONE);
+                    findViewById(R.id.imageButton3).setVisibility(View.VISIBLE);
                     return true;
                 case R.id.navigation_notification:
-                    getSupportActionBar().setTitle(R.string.title_notifications);
+                    getSupportActionBar().setTitle("");
                     findViewById(R.id.imageButton).setVisibility(View.GONE);
                     getSupportFragmentManager().beginTransaction()
                             .replace(R.id.frgmCont, new Search())
                             .commit();
+                    findViewById(R.id.editSearch).setVisibility(View.VISIBLE);
+                    findViewById(R.id.imageButton2).setVisibility(View.GONE);
+                    findViewById(R.id.imageButton3).setVisibility(View.GONE);
                     return true;
             }
             return false;
         }
     };
 
-    public void onClick(View v) throws Exception {
+    public void onClick(View v) {
         if (v.getId() == R.id.imageButton4)
         {
             mDialog = new ProgressDialog(this, R.style.MyAlertDialogStyle);
             mDialog.setMessage("Идет загрузка");
             mDialog.show();
 
-            WebView webView = (WebView) findViewById(R.id.webView);
+            WebView webView = findViewById(R.id.webView);
             WebSettings webSettings = webView.getSettings();
             webSettings.setJavaScriptEnabled(true);
             MyWebViewClient myWebViewClient = new MyWebViewClient();
@@ -78,10 +82,6 @@ public class MainActivity extends AppCompatActivity {
         {
             onBackPressed();
         }
-
-        if (v.getId() == R.id.search_button) {
-            throw new Exception();
-        }
     }
 
     @Override
@@ -89,9 +89,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mTextMessage = (TextView) findViewById(R.id.message);
+        mTextMessage = findViewById(R.id.message);
 
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+        BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setSelectedItemId(R.id.navigation_dashboard);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
@@ -99,7 +99,9 @@ public class MainActivity extends AppCompatActivity {
                 .replace(R.id.frgmCont, new FragmentCategory())
                 .commit();
 
-        tb = (Toolbar) findViewById(R.id.toolbar);
+        findViewById(R.id.imageButton2).setVisibility(View.GONE);
+
+        tb = findViewById(R.id.toolbar);
 
         setSupportActionBar(tb);
         getSupportActionBar().setTitle(R.string.title_dashboard);
