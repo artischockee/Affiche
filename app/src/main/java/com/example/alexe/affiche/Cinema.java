@@ -44,7 +44,7 @@ public class Cinema extends Fragment {
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Кино");
         myOnClickListener = new MyOnClickListener(getActivity());
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
+        recyclerView = view.findViewById(R.id.my_recycler_view);
         recyclerView.setHasFixedSize(true);
 
 
@@ -56,7 +56,7 @@ public class Cinema extends Fragment {
         JsoupAsyncTask jsoupAsyncTask = new JsoupAsyncTask();
         jsoupAsyncTask.execute();
 
-        removedItems = new ArrayList<Integer>();
+        removedItems = new ArrayList<>();
 
         Context context = getActivity();
         dbhelper = new DBHelper(context);
@@ -81,7 +81,7 @@ public class Cinema extends Fragment {
         private void selectItem(View v) {
             int select = recyclerView.getChildAdapterPosition(v);
             RecyclerView.ViewHolder vh = recyclerView.findViewHolderForAdapterPosition(select);
-            TextView textView = (TextView)vh.itemView.findViewById(R.id.textViewName);
+            TextView textView = vh.itemView.findViewById(R.id.textViewName);
             String title = (String) textView.getText();
 
             CinemaPageWebview fragment = new CinemaPageWebview();
