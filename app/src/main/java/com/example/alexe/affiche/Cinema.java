@@ -27,8 +27,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public class Cinema extends Fragment {
-    private static RecyclerView.Adapter adapter;
-    private static ArrayList<CardModel> data;
+    private static AdapterUniversal adapter;
+    private static ArrayList<ListItem> data;
     private static ArrayList<Integer> removedItems;
     public RecyclerView.LayoutManager layoutManager;
     public static RecyclerView recyclerView;
@@ -215,15 +215,21 @@ public class Cinema extends Fragment {
                     int imageIndex = cursor.getColumnIndex(DBHelper.KEY_IMG);
                     int urlIndex = cursor.getColumnIndex(DBHelper.KEY_ADDRESS);
 
-                    data.add(new CardModel(cursor.getString(titleIndex), cursor.getString(infoIndex), cursor.getString(imageIndex),
-                            cursor.getString(yearIndex), cursor.getString(durationIndex), cursor.getString(urlIndex)));
-                    adapter = new CinemaAdapter(data);
+                    data.add(new CardModelCinema(
+                            cursor.getString(titleIndex),
+                            cursor.getString(infoIndex),
+                            cursor.getString(imageIndex),
+                            cursor.getString(yearIndex),
+                            cursor.getString(durationIndex),
+                            cursor.getString(urlIndex))
+                    );
+                    adapter = new AdapterUniversal(data);
                     recyclerView.setAdapter(adapter);
                 } while (cursor.moveToNext());
                 cursor.close();
             }
-           dbhelper.close();
-           sqLiteDatabase.close();
+            dbhelper.close();
+            sqLiteDatabase.close();
         }
 
         @Override

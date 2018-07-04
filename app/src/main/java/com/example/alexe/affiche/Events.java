@@ -5,14 +5,12 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -20,20 +18,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class Events extends Fragment {
-    private static RecyclerView.Adapter adapter;
-    private static ArrayList<CardModelEvent> data;
+    private static AdapterUniversal adapter;
+    private static ArrayList<ListItem> data;
     private static ArrayList<Integer> removedItems;
     public RecyclerView.LayoutManager layoutManager;
     public static RecyclerView recyclerView;
@@ -51,7 +47,7 @@ public class Events extends Fragment {
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("События");
         myOnClickListener = new MyOnClickListener(getActivity());
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
+        recyclerView = view.findViewById(R.id.my_recycler_view);
         recyclerView.setHasFixedSize(true);
 
 
@@ -65,7 +61,7 @@ public class Events extends Fragment {
         JsoupAsyncTask jsoupAsyncTask = new JsoupAsyncTask();
         jsoupAsyncTask.execute();
 
-        removedItems = new ArrayList<Integer>();
+        removedItems = new ArrayList<>();
 
         Context context = getActivity();
         dbhelper = new DBHelper(context);
@@ -90,7 +86,7 @@ public class Events extends Fragment {
         private void selectItem(View v) {
             int select = recyclerView.getChildAdapterPosition(v);
             RecyclerView.ViewHolder vh = recyclerView.findViewHolderForAdapterPosition(select);
-            TextView textView = (TextView)vh.itemView.findViewById(R.id.textViewName);
+            TextView textView = vh.itemView.findViewById(R.id.textViewName);
             String title = (String) textView.getText();
 
             Log.d("title события", title);
@@ -281,7 +277,7 @@ public class Events extends Fragment {
 
                     data.add(new CardModelEvent(cursor.getString(titleIndex), cursor.getString(timeIndex), cursor.getString(dateIndex),
                             cursor.getString(imageIndex), cursor.getString(urlIndex), cursor.getString(placeIndex)));
-                    adapter = new EventAdapter(data);
+                    adapter = new AdapterUniversal(data);
                     recyclerView.setAdapter(adapter);
                 } while (cursor.moveToNext());
                 cursor.close();
@@ -293,7 +289,7 @@ public class Events extends Fragment {
         @Override
         protected void onPostExecute(Void result) {
             super.onPostExecute(result);
-            data = new ArrayList<CardModelEvent>();
+            data = new ArrayList<>();
             insertEvent();
             readEvent();
             mDialog.dismiss();

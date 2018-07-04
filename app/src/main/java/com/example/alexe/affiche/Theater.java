@@ -5,14 +5,12 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -20,20 +18,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class Theater extends Fragment {
-    private static RecyclerView.Adapter adapter;
-    private static ArrayList<CardModelEvent> data;
+    private static AdapterUniversal adapter;
+    private static ArrayList<ListItem> data;
     private static ArrayList<Integer> removedItems;
     public RecyclerView.LayoutManager layoutManager;
     public static RecyclerView recyclerView;
@@ -50,7 +46,7 @@ public class Theater extends Fragment {
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Театр");
         myOnClickListener = new MyOnClickListener(getActivity());
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.my_recycler_view);
+        recyclerView = view.findViewById(R.id.my_recycler_view);
         recyclerView.setHasFixedSize(true);
 
 
@@ -63,7 +59,7 @@ public class Theater extends Fragment {
         JsoupAsyncTask jsoupAsyncTask = new JsoupAsyncTask();
         jsoupAsyncTask.execute();
 
-        removedItems = new ArrayList<Integer>();
+        removedItems = new ArrayList<>();
 
         Context context = getActivity();
         dbhelper = new DBHelper(context);
@@ -88,7 +84,7 @@ public class Theater extends Fragment {
         private void selectItem(View v) {
             int select = recyclerView.getChildAdapterPosition(v);
             RecyclerView.ViewHolder vh = recyclerView.findViewHolderForAdapterPosition(select);
-            TextView textView = (TextView)vh.itemView.findViewById(R.id.textViewName);
+            TextView textView = vh.itemView.findViewById(R.id.textViewName);
             String title = (String) textView.getText();
 
             Log.d("title представления", title);
@@ -108,7 +104,7 @@ public class Theater extends Fragment {
     class JsoupAsyncTask extends AsyncTask<Void, Void, Void> {
 
         //массивы для считывания инфы о представлении
-       // private Integer[] id;
+        // private Integer[] id;
         private String[] name;
         private String[] time;
         private String[] date;
@@ -262,9 +258,9 @@ public class Theater extends Fragment {
                     int imageIndex = cursor.getColumnIndex(DBHelper.KEY_IMG_1);
                     int urlIndex = cursor.getColumnIndex(DBHelper.KEY_ADDRESS_1);
 
-                    data.add(new CardModelEvent(cursor.getString(titleIndex), cursor.getString(timeIndex), cursor.getString(dateIndex),
+                    data.add(new CardModelTheater(cursor.getString(titleIndex), cursor.getString(timeIndex), cursor.getString(dateIndex),
                             cursor.getString(imageIndex), cursor.getString(urlIndex), cursor.getString(placeIndex)));
-                    adapter = new TheaterAdapter(data);
+                    adapter = new AdapterUniversal(data);
                     recyclerView.setAdapter(adapter);
                 } while (cursor.moveToNext());
                 cursor.close();
