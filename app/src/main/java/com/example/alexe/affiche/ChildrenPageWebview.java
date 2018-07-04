@@ -1,12 +1,8 @@
 package com.example.alexe.affiche;
 
-import android.annotation.SuppressLint;
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
@@ -14,17 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebSettings;
 import android.webkit.WebView;
-import android.widget.ImageView;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
-
-import java.io.IOException;
-import java.util.ArrayList;
 
 public class ChildrenPageWebview extends Fragment {
     private WebView webView;
