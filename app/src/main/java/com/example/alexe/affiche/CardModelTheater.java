@@ -1,19 +1,35 @@
-//package com.example.alexe.affiche;
-//
-//public class CardModelTheater extends CardModelGeneral {
-//    private String time;
-//    private String date;
-//    private String place;
-//
-//    public CardModelTheater(String title, String time, String date, String img, String address, String place) {
-//        super(title, img, address);
-//
-//        this.time = time;
-//        this.date = date;
-//        this.place = place;
-//    }
-//
-//    public String getTime() { return time; }
-//    public String getDate() { return date; }
-//    public String getPlace() { return place; }
-//}
+package com.example.alexe.affiche;
+
+public class CardModelTheater implements ListItem {
+    private String title;
+    private String time;
+    private String date;
+    private String img;
+    private String address;
+    private String place;
+
+    public CardModelTheater(String title, String time, String date, String img, String address, String place) {
+        this.title = title;
+        this.time = time;
+        this.date = date;
+        this.img = img;
+        this.address = address;
+        this.place = place;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+    public String getTime() { return time; }
+    public String getDate() { return date; }
+    public String getImage() {
+        return img;
+    }
+    public String getAddress() { return address; }
+    public String getPlace() { return place; }
+
+    @Override
+    public int getListItemType() {
+        return ListItem.TYPE_THEATER;
+    }
+}
